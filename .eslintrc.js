@@ -7,9 +7,7 @@ module.exports = {
     "plugin:eslint-plugin/recommended",
     "plugin:node/recommended",
   ],
-  env: {
-    node: true,
-  },
+  env: { node: true },
   overrides: [
     {
       files: ["tests/**/*.js"],
