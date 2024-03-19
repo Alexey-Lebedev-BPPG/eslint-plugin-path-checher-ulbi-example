@@ -8,7 +8,8 @@ const ruleTester = new RuleTester({
   parserOptions: { ecmaVersion: 6, sourceType: "module" },
 });
 
-const aliasOptions = [{ alias: "@" }];
+const aliasOptionsReact = [{ alias: "@", typeProject: 'react' }];
+const aliasOptionsNext = [{ alias: "@", typeProject: 'next' }];
 
 ruleTester.run("public-api-imports", rule, {
   valid: [
@@ -36,6 +37,28 @@ ruleTester.run("public-api-imports", rule, {
       options: [
         {
           alias: "@",
+          typeProject: 'react',
+          testFilesPatterns: [
+            "**/*.test.*",
+            "**/*.test.*",
+            "**/StoreDecorator.tsx",
+          ],
+        },
+      ],
+    },
+    {
+      // где расположен файл
+      filename:
+        "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/file.test.ts",
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      // передаем параметры в плагин
+      options: [
+        {
+          alias: "@",
+          typeProject: 'next',
           testFilesPatterns: [
             "**/*.test.*",
             "**/*.test.*",
@@ -56,6 +79,28 @@ ruleTester.run("public-api-imports", rule, {
       options: [
         {
           alias: "@",
+          typeProject: 'react',
+          testFilesPatterns: [
+            "**/*.test.*",
+            "**/*.test.*",
+            "**/StoreDecorator.tsx",
+          ],
+        },
+      ],
+    },
+    {
+      // где расположен файл
+      filename:
+        "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/StoreDecorator.tsx",
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      // передаем параметры в плагин
+      options: [
+        {
+          alias: "@",
+          typeProject: 'next',
           testFilesPatterns: [
             "**/*.test.*",
             "**/*.test.*",
@@ -70,6 +115,7 @@ ruleTester.run("public-api-imports", rule, {
     {
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/model/file.ts';",
+      output: 'import { addCommentFormActions, addCommentFormReducer, } from "@/entities/Article";',
       // какой результат ошибки
       errors: [
         {
@@ -77,7 +123,20 @@ ruleTester.run("public-api-imports", rule, {
         },
       ],
       // передаем алиас в плагин
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/model/file.ts';",
+      output: 'import { addCommentFormActions, addCommentFormReducer, } from "@/entities/Article";',
+      // какой результат ошибки
+      errors: [
+        {
+          message: "Абсолютный импорт разрешен только из Public API (index.ts)",
+        },
+      ],
+      // передаем алиас в плагин
+      options: aliasOptionsNext,
     },
     {
       // где расположен файл
@@ -85,6 +144,7 @@ ruleTester.run("public-api-imports", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/StoreDecorator.tsx",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing/file.ts';",
+      output: 'import { addCommentFormActions, addCommentFormReducer, } from "@/entities/Article";',
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [
         {
@@ -95,6 +155,33 @@ ruleTester.run("public-api-imports", rule, {
       options: [
         {
           alias: "@",
+          typeProject: 'react',
+          testFilesPatterns: [
+            "**/*.test.*",
+            "**/*.test.*",
+            "**/StoreDecorator.tsx",
+          ],
+        },
+      ],
+    },
+    {
+      // где расположен файл
+      filename:
+        "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/StoreDecorator.tsx",
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing/file.ts';",
+      output: 'import { addCommentFormActions, addCommentFormReducer, } from "@/entities/Article";',
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [
+        {
+          message: "Абсолютный импорт разрешен только из Public API (index.ts)",
+        },
+      ],
+      // передаем параметры в плагин
+      options: [
+        {
+          alias: "@",
+          typeProject: 'next',
           testFilesPatterns: [
             "**/*.test.*",
             "**/*.test.*",
@@ -109,6 +196,7 @@ ruleTester.run("public-api-imports", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/forbidden.ts",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
+      output: 'import { addCommentFormActions, addCommentFormReducer, } from "@/entities/Article";',
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [
         {
@@ -120,6 +208,7 @@ ruleTester.run("public-api-imports", rule, {
       options: [
         {
           alias: "@",
+          typeProject: 'react',
           testFilesPatterns: [
             "**/*.test.*",
             "**/*.test.*",
@@ -128,5 +217,33 @@ ruleTester.run("public-api-imports", rule, {
         },
       ],
     },
+    {
+      // где расположен файл
+      filename:
+        "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/forbidden.ts",
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
+      output: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [
+        {
+          message:
+            "Тестовые данные необходимо импортировать из publicApi/testing.ts",
+        },
+      ],
+      // передаем параметры в плагин
+      options: [
+        {
+          alias: "@",
+          typeProject: 'next',
+          testFilesPatterns: [
+            "**/*.test.*",
+            "**/*.test.*",
+            "**/StoreDecorator.tsx",
+          ],
+        },
+      ],
+    },
+
   ],
 });

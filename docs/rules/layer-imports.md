@@ -1,4 +1,6 @@
-# description (`layer-imports`)
+# Description (`path-checher-ulbi-example/layer-imports`)
+
+<!-- end auto-generated rule header -->
 
 Please describe the origin of the rule here.
 

@@ -1,4 +1,8 @@
-# feature sliced relative path checker (`path-checker`)
+# Feature sliced relative path checker (`path-checher-ulbi-example/path-checker`)
+
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end auto-generated rule header -->
 
 Please describe the origin of the rule here.
 

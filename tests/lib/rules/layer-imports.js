@@ -8,7 +8,8 @@ const ruleTester = new RuleTester({
   parserOptions: { ecmaVersion: 6, sourceType: "module" },
 });
 
-const aliasOptions = [{ alias: "@" }];
+const aliasOptionsReact = [{ alias: "@", typeProject: 'react' }];
+const aliasOptionsNext = [{ alias: "@", typeProject: 'next' }];
 
 ruleTester.run("layer-imports", rule, {
   valid: [
@@ -19,7 +20,16 @@ ruleTester.run("layer-imports", rule, {
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/shared/Button.tsx';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\features\\Article",
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/shared/Button.tsx';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -28,7 +38,16 @@ ruleTester.run("layer-imports", rule, {
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\features\\Article",
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -37,7 +56,16 @@ ruleTester.run("layer-imports", rule, {
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/widgets/Article';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\app-fsd\\providers",
+      // какую строчку тестим
+      code: "import { addCommentFormActions, addCommentFormReducer, } from '@/widgets/Article';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -46,7 +74,16 @@ ruleTester.run("layer-imports", rule, {
       code: "import { useLocation } from 'react-router-dom';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\widgets\\pages-fsd",
+      // какую строчку тестим
+      code: "import { useLocation } from 'react-router-dom';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -55,7 +92,16 @@ ruleTester.run("layer-imports", rule, {
       code: "import { useLocation } from 'redux';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\app-fsd\\providers",
+      // какую строчку тестим
+      code: "import { useLocation } from 'redux';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -64,7 +110,16 @@ ruleTester.run("layer-imports", rule, {
       code: "import { StoreProvider } from '@/app/providers/StoreProvider';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\index.tsx",
+      // какую строчку тестим
+      code: "import { StoreProvider } from '@/app-fsd/providers/StoreProvider';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -73,7 +128,16 @@ ruleTester.run("layer-imports", rule, {
       code: "import { StateSchema } from '@/app/providers/StoreProvider';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [],
-      options: [{ alias: "@", ignoreImportPatterns: ["**/StoreProvider"] }],
+      options: [{ alias: "@", typeProject: 'react', ignoreImportPatterns: ["**/StoreProvider"] }],
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\Article.ts",
+      // какую строчку тестим
+      code: "import { StateSchema } from '@/app-fsd/providers/StoreProvider';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [],
+      options: [{ alias: "@", typeProject: 'next', ignoreImportPatterns: ["**/StoreProvider"] }],
     },
   ],
   // тестирование неправильного импорта
@@ -85,9 +149,20 @@ ruleTester.run("layer-imports", rule, {
       code: "import { useLocation } from '@/features/Article';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [
-        { message: "Слой может импортировать в себя только нижележащие слои" },
+        { message: "Слой может импортировать в себя только нижележащие слои [shared,entities]" },
       ],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\providers",
+      // какую строчку тестим
+      code: "import { useLocation } from '@/features/Article';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [
+        { message: "Слой может импортировать в себя только нижележащие слои [shared,entities]" },
+      ],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -96,9 +171,20 @@ ruleTester.run("layer-imports", rule, {
       code: "import { useLocation } from '@/widgets/Article';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [
-        { message: "Слой может импортировать в себя только нижележащие слои" },
+        { message: "Слой может импортировать в себя только нижележащие слои [shared,entities]" },
       ],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\features\\providers",
+      // какую строчку тестим
+      code: "import { useLocation } from '@/widgets/Article';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [
+        { message: "Слой может импортировать в себя только нижележащие слои [shared,entities]" },
+      ],
+      options: aliasOptionsNext,
     },
     {
       filename:
@@ -107,9 +193,20 @@ ruleTester.run("layer-imports", rule, {
       code: "import { useLocation } from '@/widgets/Article';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
       errors: [
-        { message: "Слой может импортировать в себя только нижележащие слои" },
+        { message: "Слой может импортировать в себя только нижележащие слои [shared,entities]" },
       ],
-      options: aliasOptions,
+      options: aliasOptionsReact,
+    },
+    {
+      filename:
+        "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\providers",
+      // какую строчку тестим
+      code: "import { useLocation } from '@/widgets/Article';",
+      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
+      errors: [
+        { message: "Слой может импортировать в себя только нижележащие слои [shared,entities]" },
+      ],
+      options: aliasOptionsNext,
     },
   ],
 });

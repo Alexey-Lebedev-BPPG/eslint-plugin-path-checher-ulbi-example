@@ -1,4 +1,8 @@
-# description (`public-api-imports`)
+# Description (`path-checher-ulbi-example/public-api-imports`)
+
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end auto-generated rule header -->
 
 Please describe the origin of the rule here.
 

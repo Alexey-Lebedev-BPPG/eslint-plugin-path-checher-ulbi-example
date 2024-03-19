@@ -30,6 +30,7 @@ ruleTester.run("path-checker", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/Article",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from 'entities/Article/model/slice/addCommentForm';",
+      output: 'import { addCommentFormActions, addCommentFormReducer, } from "./Article/model/slice/addCommentForm";',
       // какой результат ошибки
       errors: [
         {
@@ -44,6 +45,7 @@ ruleTester.run("path-checker", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/Article",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/model/slice/addCommentForm';",
+      output: 'import { addCommentFormActions, addCommentFormReducer, } from "./Article/model/slice/addCommentForm";',
       // какой результат ошибки
       errors: [
         {

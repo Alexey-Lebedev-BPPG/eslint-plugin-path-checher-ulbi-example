@@ -14,4 +14,8 @@ module.exports = {
       env: { mocha: true },
     },
   ],
+  parserOptions: {
+    // Required for certain syntax usages
+    "ecmaVersion": 2020
+  },
 };
