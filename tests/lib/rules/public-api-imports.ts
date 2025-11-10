@@ -1,7 +1,5 @@
-"use strict";
-
-const rule = require("../../../lib/rules/public-api-imports"),
-  RuleTester = require("eslint").RuleTester;
+import rule from '../../../lib/rules/public-api-imports';
+import { RuleTester } from 'eslint';
 
 const ruleTester = new RuleTester({
   // добавляем поддержку импортов
@@ -17,13 +15,11 @@ ruleTester.run("public-api-imports", rule, {
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '../../model/slice/addCommentForm';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
-      errors: [],
+      // errors: [],
     },
     {
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article';",
-      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
-      errors: [],
     },
     {
       // где расположен файл
@@ -31,8 +27,6 @@ ruleTester.run("public-api-imports", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/file.test.ts",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
-      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
-      errors: [],
       // передаем параметры в плагин
       options: [
         {
@@ -52,8 +46,6 @@ ruleTester.run("public-api-imports", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/file.test.ts",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
-      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
-      errors: [],
       // передаем параметры в плагин
       options: [
         {
@@ -73,8 +65,6 @@ ruleTester.run("public-api-imports", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/StoreDecorator.tsx",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
-      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
-      errors: [],
       // передаем параметры в плагин
       options: [
         {
@@ -94,8 +84,6 @@ ruleTester.run("public-api-imports", rule, {
         "/home/alexey/Рабочий стол/Alexey/Ulbi-Example/src/entities/StoreDecorator.tsx",
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '@/entities/Article/testing';",
-      // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
-      errors: [],
       // передаем параметры в плагин
       options: [
         {

@@ -1,17 +1,14 @@
-'use strict';
+import path from 'path';
+import { isPathRelative } from '../helpers';
+import { Rule } from 'eslint';
 
-const path = require('path');
-const {isPathRelative} = require('../helpers');
-
-module.exports = {
-  // eslint-disable-next-line eslint-plugin/prefer-message-ids
+const pathChecker: Rule.RuleModule = {
   meta: {
-    // eslint-disable-next-line eslint-plugin/require-meta-type
-    type: null,
+    type: undefined,
     docs: {
       description: 'feature sliced relative path checker',
       recommended: false,
-      url: null,
+      url: undefined,
     },
     fixable: 'code',
     // описываем, какие аргументы будем прокидывать в плагин (чтоб можно было динамически прокинуть алиас)
@@ -22,15 +19,17 @@ module.exports = {
     // достаем наш аргумент алиаса, который мы прокинули в плагин
     const {
       alias = '',
-      // 'react' | 'next'
       typeProject = 'react',
+    }: {
+      alias: string,
+      typeProject: 'react' | 'next'
     } = context.options[0] || {};
 
     return {
       // принимает ноду из AST
       ImportDeclaration(node) {
         try {
-          const valueNode = node.source.value;
+          const valueNode = node.source.value as string;
           // получаем путь до файла (например, app/entities/Article) + проверяем, если есть alias, то удаляем его. Если его нет, то оставляем путь как есть
           const importTo = alias
             ? valueNode.replace(`${alias}/`, '')
@@ -84,11 +83,11 @@ module.exports = {
 };
 
 // функция для проверки системы
-function getIsWindowsOs(currentFilePath) {
+const getIsWindowsOs = (currentFilePath: string) =>  {
   return path.toNamespacedPath(currentFilePath).includes('\\');
 }
 
-function getNormalizedCurrentFilePath(currentFilePath) {
+const getNormalizedCurrentFilePath = (currentFilePath: string) => {
   // нормализовываем путь (приводим к единому виду)
   const fromNormalizedPath = path.toNamespacedPath(currentFilePath);
   // проверяем, что путь относится к виндовс системе или нет
@@ -101,11 +100,11 @@ function getNormalizedCurrentFilePath(currentFilePath) {
 }
 
 // функция принимающая путь и проверяющая, должен ли путь быть относительным
-function shouldBeRelative(from, to, typeProject) {
+const shouldBeRelative = (from: string, to: string, typeProject: "react" | "next") =>  {
   const isReact = typeProject === 'react';
 
   // определенные сегменты, которые используются в проекте и которые мы с помощью правила будем отслеживать, чтоб исключить сторонние библиотеки
-  const layers = isReact ? {
+  const layers: {[key: string]: string} = isReact ? {
     pages: 'pages',
     widgets: 'widgets',
     features: 'features',
@@ -149,6 +148,8 @@ function shouldBeRelative(from, to, typeProject) {
   // если это условие соблюдается, то должны сделать путь относительным (линтер будет ругаться)
   return toLayer === fromLayer && toSlice === fromSlice;
 }
+
+export default pathChecker;
 
 // в таком случае, мы будем ругаться, т.к. слой (entities) и слайс(Article) у нас совпадает. В остальных случаях ругаться не будем
 // Например:

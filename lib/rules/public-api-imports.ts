@@ -1,19 +1,16 @@
-"use strict";
-
-// const path = require("path");
-const { isPathRelative } = require("../helpers");
+import { Rule } from 'eslint';
+import { isPathRelative } from '../helpers';
 // библиотека позволяет работать с путями и регулярками
-const micromatch = require("micromatch");
+import micromatch from 'micromatch';
 
 // константы для идентификации ошибок (первая для ошибок при импорте не из паблик апи, вторая для ошибок при импорте не из тестинг апи)
 const PUBLIC_ERROR = "PUBLIC_ERROR";
 const TESTING_PUBLIC_ERROR = "TESTING_PUBLIC_ERROR";
 
-module.exports = {
+const publicApiImports: Rule.RuleModule = {
   meta: {
-    // eslint-disable-next-line eslint-plugin/require-meta-type
-    type: null,
-    docs: { description: "description", recommended: false, url: null },
+    type: undefined,
+    docs: { description: "description", recommended: false, url: undefined },
     // чтоб сработал автофикс
     fixable: "code",
     messages: {
@@ -40,14 +37,17 @@ module.exports = {
     const { 
       alias = "",
       testFilesPatterns = [],
-      // 'react' | 'next'
       typeProject = 'react',
+    }: {
+      alias: string,
+      testFilesPatterns: string[],
+      typeProject: 'react' | 'next'
     } = context.options[0] || {};
 
     const isReact = typeProject === 'react';
 
     // определенные сегменты, которые используются в проекте и которые мы с помощью правила будем отслеживать, чтоб исключить сторонние библиотеки (убираем shared слой, т.к. там не всегда строгое придерживание FSD)
-    const checkingLayers = isReact ? {
+    const checkingLayers: {[key: string]: string} = isReact ? {
       pages: "pages",
       widgets: "widgets",
       features: "features",
@@ -62,7 +62,7 @@ module.exports = {
     return {
       // принимает ноду из AST
       ImportDeclaration(node) {
-        const valueNode = node.source.value;
+        const valueNode = node.source.value as string;
         // получаем путь до файла (например, app/entities/Article) + проверяем, если есть alias, то удаляем его. Если его нет, то оставляем путь как есть
         const importTo = alias ? valueNode.replace(`${alias}/`, "") : valueNode;
 
@@ -121,3 +121,5 @@ module.exports = {
     };
   },
 };
+
+export default publicApiImports;

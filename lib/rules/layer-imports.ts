@@ -1,17 +1,15 @@
-"use strict";
+import path from 'path';
+import { isPathRelative } from '../helpers';
 
-const path = require("path");
-const { isPathRelative } = require("../helpers");
 // библиотека позволяет работать с путями и регулярками
-const micromatch = require("micromatch");
+import micromatch from 'micromatch';
+import { Rule } from 'eslint';
 
-module.exports = {
-  // eslint-disable-next-line eslint-plugin/prefer-message-ids
+const layerImports: Rule.RuleModule = {
   meta: {
-    // eslint-disable-next-line eslint-plugin/require-meta-type
-    type: null,
-    docs: { description: "description", recommended: false, url: null },
-    fixable: null,
+    type: undefined,
+    docs: { description: "description", recommended: false, url: undefined },
+    fixable: undefined,
     // описываем, какие аргументы будем прокидывать в плагин (чтоб можно было динамически прокинуть алиас)
     schema: [
       {
@@ -31,14 +29,17 @@ module.exports = {
     const { 
       alias = "",
       ignoreImportPatterns = [],
-      // 'react' | 'next'
       typeProject = 'react',
+    }: {
+      alias: string,
+      ignoreImportPatterns: string[],
+      typeProject: 'react' | 'next'
     } = context.options[0] || {};
 
     const isReact = typeProject === 'react';
 
     // правила, по которым сущности могут включать в себя другие сущности
-    const layers = isReact ? {
+    const layers: {[key: string]: string[]} = isReact ? {
       app: ["pages", "widgets", "features", "shared", "entities"],
       pages: ["widgets", "features", "shared", "entities"],
       widgets: ["features", "shared", "entities"],
@@ -55,7 +56,7 @@ module.exports = {
     };
 
     // определенные сегменты, которые используются в проекте и которые мы с помощью правила будем отслеживать, чтоб исключить сторонние библиотеки (убираем shared слой, т.к. там не всегда строгое придерживание FSD)
-    const availableLayers = isReact ? {
+    const availableLayers: {[key: string]: string} = isReact ? {
       app: "app",
       pages: "pages",
       widgets: "widgets",
@@ -87,7 +88,7 @@ module.exports = {
     };
 
     // функция получения первого слоя от абсолютного пути
-    const getImportLayer = (value) => {
+    const getImportLayer = (value: string) => {
       // получаем путь до файла (например, app/entities/Article) + проверяем, если есть alias, то удаляем его. Если его нет, то оставляем путь как есть
       const importPath = alias ? value.replace(`${alias}/`, "") : value;
       // делим на сегменты
@@ -100,7 +101,7 @@ module.exports = {
       // принимает ноду из AST
       ImportDeclaration(node) {
         // получаем полный путь
-        const importPath = node.source.value;
+        const importPath = node.source.value as string;
         // получаем слой текущего файла
         const currentFileLayer = getCurrentFileLayer();
         // получаем первый слой из импорта
@@ -137,3 +138,5 @@ module.exports = {
     };
   },
 };
+
+export default layerImports;

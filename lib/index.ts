@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const requireIndex = require("requireindex");
+import requireIndex from 'requireindex';
 
 //------------------------------------------------------------------------------
 // Plugin Definition

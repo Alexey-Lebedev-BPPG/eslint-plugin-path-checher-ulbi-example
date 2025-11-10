@@ -1,7 +1,5 @@
-"use strict";
-
-const rule = require("../../../lib/rules/path-checker"),
-  RuleTester = require("eslint").RuleTester;
+import rule from '../../../lib/rules/path-checker';
+import { RuleTester } from 'eslint';
 
 // тестирование пакета
 const ruleTester = new RuleTester({
@@ -18,7 +16,7 @@ ruleTester.run("path-checker", rule, {
       // какую строчку тестим
       code: "import { addCommentFormActions, addCommentFormReducer, } from '../../model/slice/addCommentForm';",
       // какой результат ошибки (ввиду того, что тестим положительный кейс, здесь их не должно быть)
-      errors: [],
+      // errors: [],
     },
   ],
   // тестирование неправильного импорта
