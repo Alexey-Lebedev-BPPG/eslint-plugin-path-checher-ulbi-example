@@ -22,20 +22,17 @@ Add `path-checher-ulbi-example` to the plugins section of your `.eslintrc` confi
 
 ```json
 {
-    "plugins": [
-        "path-checher-ulbi-example"
-    ]
+  "plugins": ["path-checher-ulbi-example"]
 }
 ```
-
 
 Then configure the rules you want to use under the rules section.
 
 ```json
 {
-    "rules": {
-        "path-checher-ulbi-example/rule-name": 2
-    }
+  "rules": {
+    "path-checher-ulbi-example/rule-name": 2
+  }
 }
 ```
 
@@ -45,12 +42,10 @@ Then configure the rules you want to use under the rules section.
 
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
 
-| Name                                                   | Description                          | 🔧 |
-| :----------------------------------------------------- | :----------------------------------- | :- |
-| [layer-imports](docs/rules/layer-imports.md)           | description                          |    |
-| [path-checker](docs/rules/path-checker.md)             | feature sliced relative path checker | 🔧 |
-| [public-api-imports](docs/rules/public-api-imports.md) | description                          | 🔧 |
+| Name                                                   | Description                                    | 🔧  |
+| :----------------------------------------------------- | :--------------------------------------------- | :-- |
+| [layer-imports](docs/rules/layer-imports.md)           | Проверка импортов между слоями FSD архитектуры |     |
+| [path-checker](docs/rules/path-checker.md)             | feature sliced relative path checker           | 🔧  |
+| [public-api-imports](docs/rules/public-api-imports.md) | Проверка импортов из Public API                | 🔧  |
 
 <!-- end auto-generated rules list -->
-
-

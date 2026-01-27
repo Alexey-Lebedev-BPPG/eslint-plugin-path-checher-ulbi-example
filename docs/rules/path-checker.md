@@ -1,4 +1,6 @@
-# Feature sliced relative path checker (`path-checher-ulbi-example/path-checker`)
+# path-checher-ulbi-example/path-checker
+
+📝 Feature sliced relative path checker.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
@@ -13,17 +15,13 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 ### Options

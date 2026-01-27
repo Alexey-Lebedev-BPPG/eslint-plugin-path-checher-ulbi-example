@@ -1,4 +1,6 @@
-# Description (`path-checher-ulbi-example/public-api-imports`)
+# path-checher-ulbi-example/public-api-imports
+
+📝 Проверка импортов из Public API.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
@@ -13,17 +15,13 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 ### Options

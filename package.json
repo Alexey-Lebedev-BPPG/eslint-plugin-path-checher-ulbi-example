@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-path-checher-ulbi-example",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "plugin for production project",
   "keywords": [
     "eslint",
@@ -8,46 +8,37 @@
     "eslint-plugin"
   ],
   "engines": {
-    "node": ">=21.5.0"
-  }, 
+    "node": ">=22.5.0"
+  },
   "author": "alexey",
-  "main": "./lib/index.ts",
-  "exports": "./lib/index.ts",
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
   "scripts": {
-    "tsc": "tsc",
     "lint": "npm-run-all \"lint:*\"",
     "lint:eslint-docs": "npm-run-all \"update:eslint-docs -- --check\"",
     "lint:ts": "eslint .",
-    "test": "mocha tests --recursive",
+    "test": "jest",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "dependencies": {
-    "micromatch": "^4.0.5",
-    "requireindex": "^1.2.0"
+    "micromatch": "4.0.8",
+    "requireindex": "1.2.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/eslint": "^8.56.6",
-    "@types/express": "^4.17.21",
-    "@types/micromatch": "^4.0.6",
-    "@types/node": "^20.12.2",
-    "@types/requireindex": "^1.2.4",
-    "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "eslint": "^8.57.0",
-    "eslint-doc-generator": "^1.7.0",
-    "eslint-plugin-eslint-plugin": "^5.4.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-sort-keys-fix": "^1.1.2",
-    "eslint-plugin-unused-imports": "^3.1.0",
-    "mocha": "^10.4.0",
-    "npm-run-all": "^4.1.5",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.4.3"
+    "@eslint/js": "10.0.0",
+    "@jest/globals": "30.2.0",
+    "eslint": "9.39.2",
+    "eslint-doc-generator": "3.0.2",
+    "eslint-plugin-eslint-plugin": "7.3.0",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-n": "17.23.2",
+    "eslint-plugin-sort-keys-fix": "1.1.2",
+    "eslint-plugin-unused-imports": "4.3.0",
+    "jest": "30.2.0",
+    "npm-run-all": "4.1.5"
   },
   "peerDependencies": {
-    "eslint": ">=7"
+    "eslint": "^9.0.0"
   },
   "license": "ISC"
 }

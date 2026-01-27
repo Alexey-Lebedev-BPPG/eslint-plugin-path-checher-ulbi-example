@@ -1,4 +1,6 @@
-# Description (`path-checher-ulbi-example/layer-imports`)
+# path-checher-ulbi-example/layer-imports
+
+📝 Проверка импортов между слоями FSD архитектуры.
 
 <!-- end auto-generated rule header -->
 
@@ -11,17 +13,13 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 ### Options
