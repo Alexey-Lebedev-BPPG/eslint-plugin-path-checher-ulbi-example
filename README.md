@@ -40,12 +40,14 @@ Then configure the rules you want to use under the rules section.
 
 <!-- begin auto-generated rules list -->
 
+💼 Configurations enabled in.\
+✅ Set in the `recommended` configuration.\
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
 
-| Name                                                   | Description                                    | 🔧  |
-| :----------------------------------------------------- | :--------------------------------------------- | :-- |
-| [layer-imports](docs/rules/layer-imports.md)           | Проверка импортов между слоями FSD архитектуры |     |
-| [path-checker](docs/rules/path-checker.md)             | feature sliced relative path checker           | 🔧  |
-| [public-api-imports](docs/rules/public-api-imports.md) | Проверка импортов из Public API                | 🔧  |
+| Name                                                   | Description                                    | 💼 | 🔧 |
+| :----------------------------------------------------- | :--------------------------------------------- | :- | :- |
+| [layer-imports](docs/rules/layer-imports.md)           | Проверка импортов между слоями FSD архитектуры | ✅  |    |
+| [path-checker](docs/rules/path-checker.md)             | feature sliced relative path checker           | ✅  | 🔧 |
+| [public-api-imports](docs/rules/public-api-imports.md) | Проверка импортов из Public API                | ✅  | 🔧 |
 
 <!-- end auto-generated rules list -->

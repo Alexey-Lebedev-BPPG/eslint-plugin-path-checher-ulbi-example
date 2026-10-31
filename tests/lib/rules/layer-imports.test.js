@@ -1,17 +1,21 @@
-// import rule from '../../../lib/rules/layer-imports';
-// import {RuleTester} from 'eslint';
-const rule = require('../../../lib/rules/layer-imports');
-const RuleTester = require('eslint').RuleTester;
-
-const ruleTester = new RuleTester({
+'use strict';
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : {default: mod};
+  };
+Object.defineProperty(exports, '__esModule', {value: true});
+const layer_imports_1 = __importDefault(
+  require('../../../dist/rules/layer-imports'),
+);
+const eslint_1 = require('eslint');
+const ruleTester = new eslint_1.RuleTester({
   // добавляем поддержку импортов
   languageOptions: {ecmaVersion: 2022, sourceType: 'module'},
 });
-
 const aliasOptionsReact = [{alias: '@', typeProject: 'react'}];
 const aliasOptionsNext = [{alias: '@', typeProject: 'next'}];
-
-ruleTester.run('layer-imports', rule, {
+ruleTester.run('layer-imports', layer_imports_1.default, {
   // тестирование неправильного импорта
   invalid: [
     {
@@ -81,7 +85,6 @@ ruleTester.run('layer-imports', rule, {
       options: aliasOptionsNext,
     },
   ],
-
   valid: [
     {
       // какую строчку тестим

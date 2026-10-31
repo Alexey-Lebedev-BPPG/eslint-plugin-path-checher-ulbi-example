@@ -1,14 +1,19 @@
-// import rule from '../../../lib/rules/path-checker';
-// import {RuleTester} from 'eslint';
-const rule = require('../../../lib/rules/path-checker');
-const RuleTester = require('eslint').RuleTester;
-
-const ruleTester = new RuleTester({
+'use strict';
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : {default: mod};
+  };
+Object.defineProperty(exports, '__esModule', {value: true});
+const path_checker_1 = __importDefault(
+  require('../../../dist/rules/path-checker'),
+);
+const eslint_1 = require('eslint');
+const ruleTester = new eslint_1.RuleTester({
   // добавляем поддержку импортов
   languageOptions: {ecmaVersion: 2022, sourceType: 'module'},
 });
-
-ruleTester.run('path-checker', rule, {
+ruleTester.run('path-checker', path_checker_1.default, {
   // тестирование неправильного импорта
   invalid: [
     // тестируем без алиаса

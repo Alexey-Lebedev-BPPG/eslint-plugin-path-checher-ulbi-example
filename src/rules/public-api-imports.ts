@@ -1,10 +1,6 @@
-// import {Rule} from 'eslint';
-// import {isPathRelative} from '../helpers/index';
-// // библиотека позволяет работать с путями и регулярками
-// import micromatch from 'micromatch';
-
-const {isPathRelative} = require('../helpers');
-const micromatch = require('micromatch');
+import {Rule} from 'eslint';
+import {isPathRelative} from '../helpers/index';
+import micromatch from 'micromatch';
 
 // interface PublicApiImportsOptions {
 //   alias?: string;
@@ -16,22 +12,19 @@ const micromatch = require('micromatch');
 const PUBLIC_ERROR = 'PUBLIC_ERROR';
 const TESTING_PUBLIC_ERROR = 'TESTING_PUBLIC_ERROR';
 
-// const publicApiImports: Rule.RuleModule = {
-const publicApiImports = {
+const publicApiImports: Rule.RuleModule = {
   create(context) {
     // достаем наш аргумент алиаса, который мы прокинули в плагин
     const {
       alias = '',
       testFilesPatterns = [],
       typeProject = 'react',
-      // }: PublicApiImportsOptions = context.options[0] || {};
     } = context.options[0] || {};
 
     const isReact = typeProject === 'react';
 
     // определенные сегменты, которые используются в проекте и которые мы с помощью правила будем отслеживать, чтоб исключить сторонние библиотеки (убираем shared слой, т.к. там не всегда строгое придерживание FSD)
-    // const checkingLayers: {[key: string]: string} = isReact
-    const checkingLayers = isReact
+    const checkingLayers: {[key: string]: string} = isReact
       ? {
           entities: 'entities',
           features: 'features',
@@ -41,15 +34,14 @@ const publicApiImports = {
       : {
           entities: 'entities',
           features: 'features',
-          ['pages-fsd']: 'pages-fsd',
+          'pages-fsd': 'pages-fsd',
           widgets: 'widgets',
         };
 
     return {
       // принимает ноду из AST
-      ImportDeclaration(node) {
-        // const valueNode = node.source.value as string;
-        const valueNode = node.source.value;
+      ImportDeclaration(node: Rule.Node) {
+        const valueNode = (node as any).source.value as string;
         // получаем путь до файла (например, app/entities/Article) + проверяем, если есть alias, то удаляем его. Если его нет, то оставляем путь как есть
         const importTo = alias ? valueNode.replace(`${alias}/`, '') : valueNode;
 
@@ -78,9 +70,12 @@ const publicApiImports = {
           context.report({
             // метод, в котором можно работать с нодами. передаем путь, из которого делаем импорт и заменяем на свой текст
             fix: (fixer) =>
-              fixer.replaceText(node.source, `"${alias}/${layer}/${slice}"`),
+              fixer.replaceText(
+                (node as any).source,
+                `"${alias}/${layer}/${slice}"`,
+              ),
             messageId: PUBLIC_ERROR,
-            node: node.source,
+            node: (node as any).source,
           });
         }
 
@@ -92,16 +87,17 @@ const publicApiImports = {
           //   .toNamespacedPath(currentFilePath)
           //   .replace(/\\/g, '/');
           // указывает, что текущий файл является тестовым, для этого проходимся по паттернам, которые мы передали из вне и чтоб хоть один совпал
-          const isCurrentFileTesting = testFilesPatterns.some((pattern) =>
-            // эта функция вернет true, если паттерн соответствует пути (первым аргументом принимает путь, а вторым каждый паттерн)
-            micromatch.isMatch(currentFilePath, pattern),
+          const isCurrentFileTesting = testFilesPatterns.some(
+            (pattern: string) =>
+              // эта функция вернет true, если паттерн соответствует пути (первым аргументом принимает путь, а вторым каждый паттерн)
+              micromatch.isMatch(currentFilePath, pattern),
           );
 
           // если файл не тестовый, значит мы нарушили правило
           if (!isCurrentFileTesting) {
             context.report({
               messageId: TESTING_PUBLIC_ERROR,
-              node: node.source,
+              node: (node as any).source,
             });
           }
         }
@@ -137,5 +133,4 @@ const publicApiImports = {
   },
 };
 
-// export default publicApiImports;
-module.exports = publicApiImports;
+export default publicApiImports;

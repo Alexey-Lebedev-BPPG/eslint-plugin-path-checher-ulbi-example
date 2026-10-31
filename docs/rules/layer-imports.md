@@ -2,6 +2,8 @@
 
 📝 Проверка импортов между слоями FSD архитектуры.
 
+💼 This rule is enabled in the ✅ `recommended` config.
+
 <!-- end auto-generated rule header -->
 
 Please describe the origin of the rule here.

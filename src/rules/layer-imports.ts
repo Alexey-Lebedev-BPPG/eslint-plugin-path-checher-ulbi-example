@@ -1,36 +1,28 @@
-// import path from 'path';
-// import {isPathRelative} from '../helpers/index';
-const path = require('path');
-const {isPathRelative} = require('../helpers');
-const micromatch = require('micromatch');
-
-// библиотека позволяет работать с путями и регулярками
-// import micromatch from 'micromatch';
-// import {Rule} from 'eslint';
+import path from 'path';
+import {isPathRelative} from '../helpers/index';
+import micromatch from 'micromatch';
+import {Rule} from 'eslint';
 
 // Определяем тип для опций
-// interface LayerImportsOptions {
-//   alias?: string;
-//   typeProject?: 'react' | 'next';
-//   ignoreImportPatterns?: string[];
-// }
+interface LayerImportsOptions {
+  alias?: string;
+  typeProject?: 'react' | 'next';
+  ignoreImportPatterns?: string[];
+}
 
-// const layerImports: Rule.RuleModule = {
-const layerImports = {
+const layerImports: Rule.RuleModule = {
   create(context) {
     // достаем наш аргумент алиаса, который мы прокинули в плагин
     const {
       alias = '',
       ignoreImportPatterns = [],
       typeProject = 'react',
-      // }: LayerImportsOptions = context.options[0] || {};
-    } = context.options[0] || {};
+    }: LayerImportsOptions = context.options[0] || {};
 
     const isReact = typeProject === 'react';
 
     // правила, по которым сущности могут включать в себя другие сущности
-    // const layers: {[key: string]: string[]} = isReact
-    const layers = isReact
+    const layers: {[key: string]: string[]} = isReact
       ? {
           app: ['pages', 'widgets', 'features', 'shared', 'entities'],
           entities: ['shared', 'entities'],
@@ -40,23 +32,16 @@ const layerImports = {
           widgets: ['features', 'shared', 'entities'],
         }
       : {
-          ['app-fsd']: [
-            'pages-fsd',
-            'widgets',
-            'features',
-            'shared',
-            'entities',
-          ],
+          'app-fsd': ['pages-fsd', 'widgets', 'features', 'shared', 'entities'],
           entities: ['shared', 'entities'],
           features: ['shared', 'entities'],
-          ['pages-fsd']: ['widgets', 'features', 'shared', 'entities'],
+          'pages-fsd': ['widgets', 'features', 'shared', 'entities'],
           shared: ['shared'],
           widgets: ['features', 'shared', 'entities'],
         };
 
     // определенные сегменты, которые используются в проекте и которые мы с помощью правила будем отслеживать, чтоб исключить сторонние библиотеки (убираем shared слой, т.к. там не всегда строгое придерживание FSD)
-    // const availableLayers: {[key: string]: string} = isReact
-    const availableLayers = isReact
+    const availableLayers: {[key: string]: string} = isReact
       ? {
           app: 'app',
           entities: 'entities',
@@ -66,10 +51,10 @@ const layerImports = {
           widgets: 'widgets',
         }
       : {
-          ['app-fsd']: 'app-fsd',
+          'app-fsd': 'app-fsd',
           entities: 'entities',
           features: 'features',
-          ['pages-fsd']: 'pages-fsd',
+          'pages-fsd': 'pages-fsd',
           shared: 'shared',
           widgets: 'widgets',
         };
@@ -93,8 +78,7 @@ const layerImports = {
     };
 
     // функция получения первого слоя от абсолютного пути
-    // const getImportLayer = (value: string) => {
-    const getImportLayer = (value) => {
+    const getImportLayer = (value: string): string => {
       // получаем путь до файла (например, app/entities/Article) + проверяем, если есть alias, то удаляем его. Если его нет, то оставляем путь как есть
       const importPath = alias ? value.replace(`${alias}/`, '') : value;
       // делим на сегменты
@@ -105,10 +89,9 @@ const layerImports = {
 
     return {
       // принимает ноду из AST
-      ImportDeclaration(node) {
+      ImportDeclaration(node: Rule.Node) {
         // получаем полный путь
-        // const importPath = node.source.value as string;
-        const importPath = node.source.value;
+        const importPath = (node as any).source.value as string;
         // получаем слой текущего файла
         const currentFileLayer = getCurrentFileLayer();
         // получаем первый слой из импорта
@@ -122,7 +105,7 @@ const layerImports = {
           return;
 
         // указывает, что текущий файл является ли тем, который нужно проигнорировать (те исключения, которые мы прокидываем в плагин), для этого проходимся по паттернам, которые мы передали из вне и чтоб хоть один совпал
-        const isIgnored = ignoreImportPatterns.some((pattern) =>
+        const isIgnored = ignoreImportPatterns.some((pattern: string) =>
           // эта функция вернет true, если паттерн соответствует пути (первым аргументом принимает путь, а вторым каждый паттерн)
           micromatch.isMatch(importPath, pattern),
         );
@@ -136,7 +119,7 @@ const layerImports = {
           context.report({
             data: {layers: layers[currentFileLayer]?.join(',') || ''},
             messageId: 'invalidLayerImport',
-            node: node.source,
+            node: (node as any).source,
           });
         }
       },
@@ -171,5 +154,4 @@ const layerImports = {
   },
 };
 
-// export default layerImports;
-module.exports = layerImports;
+export default layerImports;

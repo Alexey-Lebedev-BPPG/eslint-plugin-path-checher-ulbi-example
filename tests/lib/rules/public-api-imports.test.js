@@ -1,24 +1,27 @@
-// import rule from '../../../lib/rules/public-api-imports';
-// import {RuleTester} from 'eslint';
-const rule = require('../../../lib/rules/public-api-imports');
-const RuleTester = require('eslint').RuleTester;
-
+'use strict';
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : {default: mod};
+  };
+Object.defineProperty(exports, '__esModule', {value: true});
+const public_api_imports_1 = __importDefault(
+  require('../../../dist/rules/public-api-imports'),
+);
+const eslint_1 = require('eslint');
 // тестирование пакета
-const ruleTester = new RuleTester({
+const ruleTester = new eslint_1.RuleTester({
   // добавляем поддержку импортов
   languageOptions: {ecmaVersion: 2022, sourceType: 'module'},
 });
-
 const aliasOptionsReact = [{alias: '@', typeProject: 'react'}];
 const aliasOptionsNext = [{alias: '@', typeProject: 'next'}];
-
 const testFilesPatterns = [
   '**/*.test.*',
   '**/*.spec.*',
   '**/StoreDecorator.tsx',
 ];
-
-ruleTester.run('public-api-imports', rule, {
+ruleTester.run('public-api-imports', public_api_imports_1.default, {
   // тестирование неправильного импорта
   invalid: [
     {

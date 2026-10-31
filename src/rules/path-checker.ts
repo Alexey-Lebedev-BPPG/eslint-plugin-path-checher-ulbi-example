@@ -1,31 +1,25 @@
-// import path from 'path';
-// import {isPathRelative} from '../helpers/index';
-// import {Rule} from 'eslint';
-
-'use strict';
-
-const path = require('path');
-const {isPathRelative} = require('../helpers');
+import path from 'path';
+import {isPathRelative} from '../helpers/index';
+import {Rule} from 'eslint';
 
 // interface PathCheckerOptions {
 //   alias?: string;
 //   typeProject?: 'react' | 'next';
 // }
 
-// const pathChecker: Rule.RuleModule = {
-const pathChecker = {
+const pathChecker: Rule.RuleModule = {
   create(context) {
     // достаем наш аргумент алиаса, который мы прокинули в плагин
-    // const {alias = '', typeProject = 'react'}: PathCheckerOptions =
     const {alias = '', typeProject = 'react'} = context.options[0] || {};
 
     // функция для проверки системы
-    // const getIsWindowsOs = (currentFilePath: string) =>
-    const getIsWindowsOs = (currentFilePath) =>
+    const getIsWindowsOs = (currentFilePath: string): boolean =>
       path.toNamespacedPath(currentFilePath).includes('\\');
 
     // const getNormalizedCurrentFilePath = (currentFilePath: string) => {
-    const getNormalizedCurrentFilePath = (currentFilePath) => {
+    const getNormalizedCurrentFilePath = (
+      currentFilePath: string,
+    ): string | undefined => {
       // нормализовываем путь (приводим к единому виду)
       const fromNormalizedPath = path.toNamespacedPath(currentFilePath);
       // проверяем, что путь относится к виндовс системе или нет
@@ -38,17 +32,15 @@ const pathChecker = {
     };
 
     // функция принимающая путь и проверяющая, должен ли путь быть относительным
-    // const shouldBeRelative = (
-    //   from: string,
-    //   to: string,
-    //   typeProject: 'react' | 'next',
-    // ) => {
-    const shouldBeRelative = (from, to, typeProject) => {
+    const shouldBeRelative = (
+      from: string,
+      to: string,
+      typeProject: 'react' | 'next',
+    ): boolean => {
       const isReact = typeProject === 'react';
 
       // определенные сегменты, которые используются в проекте и которые мы с помощью правила будем отслеживать, чтоб исключить сторонние библиотеки
-      // const layers: {[key: string]: string} = isReact
-      const layers = isReact
+      const layers: {[key: string]: string} = isReact
         ? {
             entities: 'entities',
             features: 'features',
@@ -59,7 +51,7 @@ const pathChecker = {
         : {
             entities: 'entities',
             features: 'features',
-            ['pages-fsd']: 'pages-fsd',
+            'pages-fsd': 'pages-fsd',
             shared: 'shared',
             widgets: 'widgets',
           };
@@ -98,10 +90,9 @@ const pathChecker = {
 
     return {
       // принимает ноду из AST
-      ImportDeclaration(node) {
+      ImportDeclaration(node: Rule.Node) {
         try {
-          // const valueNode = node.source.value as string;
-          const valueNode = node.source.value;
+          const valueNode = (node as any).source.value as string;
           // получаем путь до файла (например, app/entities/Article) + проверяем, если есть alias, то удаляем его. Если его нет, то оставляем путь как есть
           const importTo = alias
             ? valueNode.replace(`${alias}/`, '')
@@ -142,9 +133,9 @@ const pathChecker = {
             context.report({
               // метод, в котором можно работать с нодами. передаем путь, из которого делаем импорт и заменяем на свой текст
               fix: (fixer) =>
-                fixer.replaceText(node.source, `"${relativePath}"`),
+                fixer.replaceText((node as any).source, `"${relativePath}"`),
               messageId: 'shouldBeRelative',
-              node: node.source,
+              node: (node as any).source,
             });
           }
         } catch (error) {
@@ -179,54 +170,4 @@ const pathChecker = {
   },
 };
 
-// export default pathChecker;
-module.exports = pathChecker;
-
-
-// в таком случае, мы будем ругаться, т.к. слой (entities) и слайс(Article) у нас совпадает. В остальных случаях ругаться не будем
-// Например:
-// "/home/alexey/Рабочий стол/Alexey/test/src/entities/Article"     и     "entities/Article/test.js"
-
-// можно проверить пути для разных ОС:
-// console.log(
-//   shouldBeRelative(
-//     "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\Article",
-//     "entities/Article/testTest"
-//   )
-// ); // true
-// console.log(
-//   shouldBeRelative(
-//     "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\Article",
-//     "entities/Test/testTest"
-//   )
-// ); // false
-// console.log(
-//   shouldBeRelative(
-//     "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\Article",
-//     "features/Article/testTest"
-//   )
-// ); // false
-// console.log(
-//   shouldBeRelative(
-//     "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\features\\Article",
-//     "features/Article/testTest"
-//   )
-// ); // true
-// console.log(
-//   shouldBeRelative(
-//     "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\Article",
-//     "app/index.tsx"
-//   )
-// ); // false
-// console.log(
-//   shouldBeRelative(
-//     "C:/Users/tim/Desktop/javascript/GOOD_COURSE_test/src/entities/Article",
-//     "entities/Article/testTest/testTest"
-//   )
-// ); // true
-// console.log(
-//   shouldBeRelative(
-//     "C:\\Users\\tim\\Desktop\\javascript\\GOOD_COURSE_test\\src\\entities\\Article",
-//     "../../model/selectors/getSidebarItems"
-//   )
-// ); // false
+export default pathChecker;
