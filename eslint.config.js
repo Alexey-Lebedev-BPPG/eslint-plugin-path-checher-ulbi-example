@@ -1,51 +1,76 @@
+import {defineConfig, globalIgnores} from 'eslint/config';
 import eslint from '@eslint/js';
 import n from 'eslint-plugin-n';
 import importPlugin from 'eslint-plugin-import';
 import unusedImports from 'eslint-plugin-unused-imports';
-import sortKeysFix from 'eslint-plugin-sort-keys-fix';
 import parser from '@typescript-eslint/parser';
-import unresolved from 'eslint-plugin-import';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
-  eslint.configs.recommended,
-  n.configs['flat/recommended'],
-  importPlugin.flatConfigs.recommended,
-  importPlugin.flatConfigs.typescript,
+export default defineConfig([
+  // Base JS recommended rules
   {
-    ignores: ['dist/**/*'],
+    name: 'eslint-plugin-path-checher-ulbi-example/js-recommended',
+    files: ['**/*.js'],
+    ...eslint.configs.recommended,
   },
+  // Node.js rules
   {
+    name: 'eslint-plugin-path-checher-ulbi-example/node-recommended',
+    files: ['**/*.js'],
+    ...n.configs['flat/recommended'],
+  },
+  // Import plugin rules
+  {
+    name: 'eslint-plugin-path-checher-ulbi-example/import-recommended',
+    files: ['**/*.js', '**/*.mjs', '**/*.ts', '**/*.mts'],
+    ...importPlugin.flatConfigs.recommended,
+    ...importPlugin.flatConfigs.typescript,
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+      },
+    },
+  },
+  // Global ignores
+  globalIgnores(['dist/**/*'], {
+    name: 'eslint-plugin-path-checher-ulbi-example/ignores',
+  }),
+  // TypeScript source files
+  {
+    name: 'eslint-plugin-path-checher-ulbi-example/typescript-src',
     files: ['src/**/*.ts', 'src/**/*.tsx'],
     languageOptions: {
-      parser: parser,
+      parser,
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+    },
+  },
+  // TypeScript test files
+  {
+    name: 'eslint-plugin-path-checher-ulbi-example/typescript-tests',
+    files: ['tests/**/*.ts', 'tests/**/*.tsx'],
+    languageOptions: {
+      parser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json'
-      }
-    }
+      },
+    },
   },
+  // Global rules for all linted files
   {
-    files: ['tests/**/*.ts', 'tests/**/*.tsx'],
-    languageOptions: {
-      parser: parser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module'
-      }
-    }
-  },
-  {
-    languageOptions: {ecmaVersion: 'latest', sourceType: 'module'},
-    plugins: {'sort-keys-fix': sortKeysFix, 'unused-imports': unusedImports, 'import': importPlugin},
+    name: 'eslint-plugin-path-checher-ulbi-example/rules',
+    plugins: {
+      'unused-imports': unusedImports,
+    },
     rules: {
       'n/no-missing-import': 'off',
       'n/no-missing-require': 'off',
       'n/no-unpublished-import': 'off',
-      // Отключаем правила для Node.js, которые конфликтуют с TypeScript
       'n/no-unsupported-features/es-syntax': 'off',
-      'sort-keys-fix/sort-keys-fix': 'warn',
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
         'error',
@@ -58,6 +83,12 @@ export default [
       ],
     },
   },
-  // {configs: {re}},
-  {files: ['tests/**/*.js'], rules: {'n/no-unpublished-import': 'off'}},
-];
+  // Test JS files
+  {
+    name: 'eslint-plugin-path-checher-ulbi-example/test-js',
+    files: ['tests/**/*.js'],
+    rules: {
+      'n/no-unpublished-import': 'off',
+    },
+  },
+]);

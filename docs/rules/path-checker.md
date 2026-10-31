@@ -28,7 +28,20 @@ Examples of **correct** code for this rule:
 
 ### Options
 
-If there are any options, describe them here. Otherwise, delete this section.
+```json
+{
+  "path-checher-ulbi-example/path-checker": [
+    "error",
+    {
+      "alias": "@",
+      "typeProject": "react"
+    }
+  ]
+}
+```
+
+- `alias` (string, optional) — алиас путей в проекте (например, `@` или `~`). Используется для удаления алиаса из пути импорта при проверке.
+- `typeProject` ('react' | 'next', optional) — тип проекта. По умолчанию `'react'`. Определяет названия слоёв FSD архитектуры.
 
 ## When Not To Use It
 

@@ -28,7 +28,22 @@ Examples of **correct** code for this rule:
 
 ### Options
 
-If there are any options, describe them here. Otherwise, delete this section.
+```json
+{
+  "path-checher-ulbi-example/public-api-imports": [
+    "error",
+    {
+      "alias": "@",
+      "typeProject": "react",
+      "testFilesPatterns": ["**/*.test.ts", "**/*.spec.ts"]
+    }
+  ]
+}
+```
+
+- `alias` (string, optional) — алиас путей в проекте (например, `@` или `~`). Используется для удаления алиаса из пути импорта при проверке.
+- `typeProject` ('react' | 'next', optional) — тип проекта. По умолчанию `'react'`. Определяет названия слоёв FSD архитектуры.
+- `testFilesPatterns` (string[], optional) — массив паттернов (micromatch) для идентификации тестовых файлов. Файлы, соответствующие этим паттернам, могут импортировать данные из `testing.ts` (тестовое API).
 
 ## When Not To Use It
 
